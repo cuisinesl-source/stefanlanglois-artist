@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stefan Langlois | SPTL Audio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root {
+
+            --hot-bg: #0d0604;
+
+            --hot-text: #f5f5f5;
+
+            --hot-accent: #ff4500;
+
+            --hot-glow: rgba(255, 69, 0, 0.4);
+
+            --cold-bg: #030608;
+
+            --cold-text: #e0e6ed;
+
+            --cold-accent: #00f0ff;
+
+            --cold-glow: rgba(0, 240, 255, 0.3);
+
+            --font-music: 'Playfair Display', serif;
+
+            --font-tech: 'Space Mono', monospace;
+
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body { background-color: var(--hot-bg); color: var(--hot-text); overflow-x: hidden; }
+
+ 
+
+        .hot-zone {
+
+            padding: 0 5% 6rem 5%;
+
+            background: radial-gradient(circle at 20% 10%, #2a0e05 0%, var(--hot-bg) 50%);
+
+            position: relative;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        .hot-zone nav {
+
+            padding: 2rem 0;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            font-family: var(--font-tech);
+
+            font-size: 0.9rem;
+
+        }
+
+        .hot-zone nav .logo { font-weight: 700; color: var(--hot-accent); letter-spacing: 2px; }
+
+        .hot-zone nav a { color: var(--hot-text); text-decoration: none; margin-left: 1.5rem; opacity: 0.7; transition: opacity 0.3s; }
+
+        .hot-zone nav a:hover { opacity: 1; color: var(--hot-accent); }
+
+ 
+
+        .hero-presentation { flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 800px; margin-top: 2rem }
+
+        .hero-presentation .tagline { font-family: var(--font-tech); color: var(--hot-accent); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+
+        .hero-presentation h1 { font-family: var(--font-music); font-size: 5.5rem; font-weight: 400; line-height: 0.9; margin-bottom: 1.5rem; }
+
+        .hero-presentation h1 span { font-style: italic; color: var(--hot-accent); }
+
+        .hero-presentation p { font-size: 1.1rem; line-height: 1.8; opacity: 0.8; max-width: 600px; }
+
+ 
+
+        .music-section { margin-top: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+        .track-card { background: linear-gradient(160deg, rgba(255, 69, 0, 0.05) 0%, rgba(0,0,0,0) 100%); border: 1px solid rgba(255, 69, 0, 0.15); padding: 2rem; border-radius: 4px; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s; display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .track-card:hover { transform: translateY(-8px); border-color: var(--hot-accent); box-shadow: 0 20px 40px -10px var(--hot-glow); }
+
+        .track-header { display: flex; justify-content: space-between; align-items: flex-start; }
+
+        .track-info h3 { font-family: var(--font-music); font-size: 1.8rem; margin-bottom: 0.5rem; }
+
+        .track-info p { font-family: var(--font-tech); font-size: 0.75rem; color: var(--hot-accent); text-transform: uppercase; letter-spacing: 1px; }
+
+        audio { width: 100%; margin-top: auto; filter: invert(1) hue-rotate(180deg) opacity(0.8); }
+
+        .btn-hot { display: block; text-align: center; background: transparent; color: var(--hot-text); border: 1px solid var(--hot-accent); padding: 1rem 1.5rem; text-decoration: none; font-family: var(--font-tech); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: background 0.3s, color 0.3s, box-shadow 0.3s; }
+
+        .btn-hot:hover { background: var(--hot-accent); color: #000; box-shadow: 0 0 20px var(--hot-glow); }
+
+ 
+
+        .thermal-bus { height: 200px; background: var(--cold-bg); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+        .bus-track { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255, 255, 255, 0.1); transform: translateY(-50%); }
+
+        .bus-energy { position: absolute; top: 50%; left: 0; width: 150px; height: 4px; background: linear-gradient(90deg, transparent, var(--hot-accent), var(--cold-accent), transparent); transform: translateY(-50%); box-shadow: 0 0 15px 2px var(--hot-glow); animation: travelBus 4s infinite linear; }
+
+        @keyframes travelBus { 0% { left: -150px; } 100% { left: 100%; } }
+
+        .bus-text { font-family: var(--font-tech); color: #555; font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; z-index: 2; background: var(--cold-bg); padding: 0 1rem; }
+
+ 
+
+        .cold-zone { background: var(--cold-bg); color: var(--cold-text); padding: 6rem 5%; font-family: var(--font-tech); position: relative; }
+
+        .cold-zone::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+
+        .plugin-header { text-align: center; margin-bottom: 5rem; position: relative; }
+
+        .plugin-header .tagline { font-size: 0.8rem; color: var(--cold-accent); letter-spacing: 3px; margin-bottom: 1rem; display: block; }
+
+        .plugin-header h2 { font-family: var(--font-tech); font-size: 4rem; font-weight: 700; color: #fff; text-shadow: 0 0 30px var(--cold-glow); }
+
+        .plugin-header p { margin-top: 1rem; color: #8899a6; font-size: 1rem; letter-spacing: 1px; }
+
+               .plugin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            position: relative;
+            align-items: start; /* C'est cette ligne qui empêche le rectangle de s'étirer */
+        }
+
+ 
+
+        .plugin-ui { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 2rem; box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative; }
+
+ 
+
+        .plugin-content h3 { color: #fff; font-size: 1.5rem; margin-bottom: 1.5rem; position: relative; padding-left: 1.5rem; }
+
+        .plugin-content h3::before { content: ""; position: absolute; left: 0; top: 5px; width: 5px; height: 20px; background: var(--cold-accent); box-shadow: 0 0 10px var(--cold-glow); }
+
+        .plugin-content p { font-size: 0.95rem; line-height: 1.8; color: #b0b8c0; margin-bottom: 1.5rem; }
+
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+
+        .feature-item { background: rgba(0, 240, 255, 0.02); border: 1px solid rgba(0, 240, 255, 0.1); padding: 1rem; border-radius: 4px; }
+
+        .feature-item strong { display: block; color: var(--cold-accent); margin-bottom: 0.3rem; font-size: 0.9rem; }
+
+        .feature-item span { font-size: 0.8rem; color: #8899a6; line-height: 1.4; }
+
+        .btn-cold { display: block; text-align: center; background: var(--cold-accent); color: #000; padding: 1.2rem 2rem; text-decoration: none; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; transition: box-shadow 0.3s, transform 0.3s; box-shadow: 0 0 20px rgba(0, 240, 255, 0.1); }
+
+        .btn-cold:hover { box-shadow: 0 0 40px var(--cold-glow); transform: translateY(-3px); }
+
+ 
+
+        footer { background: #000; padding: 3rem 5%; text-align: center; font-family: var(--font-tech); color: #444; font-size: 0.8rem; border-top: 1px solid #111; }
+
+        footer a { color: #666; text-decoration: none; border-bottom: 1px dotted #444; }
+
+ 
+
+        @media (max-width: 768px) {
+
+            .hero-presentation h1 { font-size: 3rem; }
+
+            .music-section { grid-template-columns: 1fr; }
+
+            .plugin-container { grid-template-columns: 1fr; }
+
+            .plugin-header h2 { font-size: 2.5rem; }
+
+            .hot-zone nav { flex-direction: column; gap: 1.5rem; margin-bottom: 3rem; }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+ 
+
+    <!-- PÔLE CHAUD : MUSIQUE -->
+
+    <section class="hot-zone">
+
+        <nav>
+
+            <div class="logo">STEFAN LANGLOIS</div>
+
+            <div>
+
+                <a href="#music">Musique</a>
+
+                <a href="#plugin">SPTL Audio</a>
+
+            </div>
+
+        </nav>
+
+ 
+
+       <div class="hero-presentation">
+    <span class="tagline">Chanteur · Compositeur · Concepteur</span>
+    <h1>Stefan <br><span>Langlois.</span></h1>
+    
+    <!-- VOICI LE CODE DE LA PHOTO AJOUTÉ ICI -->
+    <img src="photo-stefan.jpg" alt="Stefan Langlois" style="width: 100%; max-width: 400px; border-radius: 8px; margin: 2rem 0; border: 1px solid var(--hot-accent); box-shadow: 0 10px 30px var(--hot-glow);">
+    
+    <p>L'énergie brute d'une voix, l'émotion d'une composition. Ici naît la chaleur, le signal source qui alimentera le système. Bienvenue au premier pôle du circuit.</p>
+</div>
+
+ 
+
+      <div id="music" class="music-section">
+
+    <div class="track-card">
+        <!-- VOICI L'IMAGE DE LA CHANSON AJOUTÉE ICI -->
+        <img src="cover-gars.png" alt="Cover Un gars comme moé" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; margin-bottom: 1rem;">
+
+        <div class="track-header">
+            <div class="track-info">
+                <h3>Un gars comme moé</h3>
+                <p>Single · Extrait 30s</p>
+            </div>
+        </div>
+        <audio controls preload="metadata">
+            <source src="extrait-gars.mp3" type="audio/mpeg">
+        </audio>
+        <a href="https://stefanelanglois1.bandcamp.com/track/un-gars-comme-mo" class="btn-hot">Acheter le single · 2 CA$</a>
+    </div>
+
+</div>
+
+ 
+
+          <div id="music" class="music-section">
+
+    <div class="track-card">
+        <!-- VOICI L'IMAGE DE LA CHANSON AJOUTÉE ICI -->
+        <img src="cover-sais-pu.png" alt="Cover Je l'sais pu" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; margin-bottom: 1rem;">
+
+        <div class="track-header">
+            <div class="track-info">
+                <h3>Je l'sais pu</h3>
+                <p>Single · Extrait 30s</p>
+            </div>
+        </div>
+        <audio controls preload="metadata">
+            <source src="extrait-sais pu.mp3" type="audio/mpeg">
+        </audio>
+        <a href="https://stefanelanglois1.bandcamp.com/track/je-lsais-pu" class="btn-hot">Acheter le single · 2 CA$</a>
+    </div>
+
+</div>
+
+    </section>
+
+ 
+
+    <!-- THERMAL BUS -->
+
+    <div class="thermal-bus">
+
+        <div class="bus-track"></div>
+
+        <div class="bus-energy"></div>
+
+        <div class="bus-text">· ThermalBus Signal Routing ·</div>
+
+    </div>
+
+ 
+
+    <!-- PÔLE FROID : PLUGIN SPTL -->
+
+    <section id="plugin" class="cold-zone">
+
+        <div class="plugin-header">
+
+            <span class="tagline">SPTL Audio · VST3 / AU</span>
+
+            <h2>ENTROPY</h2>
+
+            <p>Thermodynamic Mixing Engine</p>
+
+        </div>
+
+ 
+
+        <div class="plugin-container">
+
+            <!-- EMPLACEMENT PHOTO PLUGIN -->
+
+                        <div class="plugin-ui" style="padding: 0;">
+                <img src="plugin-sptl.png" alt="Interface du plugin SPTL Entropy" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+            </div>
+
+ 
+
+            <div class="plugin-content">
+
+                <h3>La chaleur comme moteur de mix</h3>
+
+                <p>Et si le ducking n'était plus une question de seuil et de gain, mais de température ? SPTL Entropy remplace la mécanique classique par une analogie thermodynamique.</p>
+
+                <p>L'instance Source émet un signal de "chaleur" via le ThermalBus vers les Receiver. La même énergie qui réduit le gain réchauffe le signal via un étage de saturation analogique (tanh). Dynamique et couleur évoluent ensemble.</p>
+
+                <div class="feature-grid">
+
+                    <div class="feature-item"><strong>ThermalBus</strong><span>Routage multi-pistes via Link ID</span></div>
+
+                    <div class="feature-item"><strong>Saturation tanh</strong><span>Attack/Release dédiés au pré-drive</span></div>
+
+                    <div class="feature-item"><strong>Profils adaptatifs</strong><span>Kick, Basse, Guitare... Clamp 20Hz</span></div>
+
+                    <div class="feature-item"><strong>Native VST3</strong><span>C++ / JUCE · Thread-safe</span></div>
+
+                </div>
+
+                <a href="[LIEN_STRIPE_PLUGIN]" class="btn-cold">Acheter SPTL Entropy · 49 CA$</a>
+
+                <p style="font-size: 0.75rem; color: #555; margin-top: 1rem; text-align: center;">Compatibilité: Luna, Ableton, Cubase, FL Studio, Reaper.</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+ 
+
+    <footer>
+
+        <p>&copy; <span id="current-year"></span> Stefan Langlois / SPTL Audio. Tous droits réservés.</p>
+
+        <p style="margin-top: 0.5rem;">Contact: <a href="mailto:ton.email@gmail.com">ton.email@gmail.com</a> · Transactions sécurisées via Stripe CA</p>
+
+    </footer>
+
+ 
+
+    <script>
+
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+
+    </script>
+
+ 
+
+</body>
+
+</html>
